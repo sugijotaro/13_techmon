@@ -21,26 +21,24 @@ class BattleViewController: UIViewController {
     
     let techMonManager = TechMonManager.shared
     
-    var playerHP = 100
-    var playerMP = 0
-    var enemyHP = 200
-    var enemyMP = 0
-    
+    var player: Character!
+    var enemy: Character!
     var gameTimer: Timer!
     var isPlayerAttackAvailable: Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        playerNameLabel.text = "勇者"
-        playerImageView.image = UIImage(named: "yusha.png")
-        playerHPLabel.text = "\(playerHP) / 100"
-        playerMPLabel.text = "\(playerMP) / 20"
+        player = techMonManager.player
+        enemy = techMonManager.enemy
         
-        enemyNameLabel.text = "龍"
-        enemyImageView.image = UIImage(named: "monster.png")
-        enemyHPLabel.text = "\(enemyHP) / 200"
-        enemyMPLabel.text = "\(enemyMP) / 35"
+        playerNameLabel.text = player.name
+        playerImageView.image = player.image
+        
+        enemyNameLabel.text = enemy.name
+        enemyImageView.image = enemy.image
+        
+        updateUI()
         
         gameTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(updateGame), userInfo: nil, repeats: true)
         gameTimer.fire()
@@ -58,35 +56,41 @@ class BattleViewController: UIViewController {
         techMonManager.stopBGM()
     }
     
+    func updateUI(){
+        playerHPLabel.text = "\(player.currentHP) / \(player.maxHP)"
+        playerMPLabel.text = "\(player.currentMP) / \(player.maxMP)"
+        
+        enemyHPLabel.text = "\(enemy.currentHP) / \(enemy.maxHP)"
+        enemyMPLabel.text = "\(enemy.currentMP) / \(enemy.maxMP)"
+    }
+    
     @objc func updateGame(){
-        playerMP += 1
-        if playerMP >= 20{
+        player.currentMP += 1
+        if player.currentMP >= player.maxMP{
             isPlayerAttackAvailable = true
-            playerMP = 20
+            player.currentMP = player.maxMP
         }else{
             isPlayerAttackAvailable = false
         }
         
-        enemyMP += 1
-        if enemyMP >= 35{
-            
+        enemy.currentMP += 1
+        if enemy.currentMP >= enemy.maxMP{
             enemyAttack()
-            enemyMP = 0
+            enemy.currentMP = 0
         }
         
-        playerMPLabel.text = "\(playerMP) / 20"
-        enemyMPLabel.text = "\(enemyMP) / 35"
+        updateUI()
     }
     
     func enemyAttack(){
         techMonManager.damageAnimation(imageView: playerImageView)
         techMonManager.playSE(fileName: "SE_attack")
         
-        playerHP -= 20
+        player.currentHP -= enemy.attackPoint
         
-        playerHPLabel.text = "\(playerHP) / 100"
+        updateUI()
         
-        if playerHP <= 0{
+        if player.currentHP <= 0{
             finishBattle(vanishImageView:playerImageView, isPlayerWin: false)
         }
     }
@@ -118,13 +122,12 @@ class BattleViewController: UIViewController {
             techMonManager.damageAnimation(imageView: enemyImageView)
             techMonManager.playSE(fileName: "SE_attack")
             
-            enemyHP -= 30
-            playerMP = 0
+            enemy.currentHP -= player.attackPoint
+            player.currentMP = 0
             
-            enemyHPLabel.text = "\(enemyHP) / 200"
-            playerMPLabel.text = "\(playerMP) / 20"
+            updateUI()
             
-            if enemyHP <= 0{
+            if enemy.currentHP <= 0{
                 finishBattle(vanishImageView: enemyImageView, isPlayerWin: true)
             }
         }
