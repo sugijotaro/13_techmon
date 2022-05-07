@@ -153,7 +153,7 @@
                                             <fontDescription key="titleFontDescription" name="MisakiGothic" family="MisakiGothic" pointSize="20"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="attackAction" destination="AdV-FW-p38" eventType="touchUpInside" id="1yA-uh-tiG"/>
+                                            <action selector="fireAction" destination="AdV-FW-p38" eventType="touchUpInside" id="AQm-cS-cMB"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rqg-Es-LIm">
@@ -165,7 +165,7 @@
                                             <fontDescription key="titleFontDescription" name="MisakiGothic" family="MisakiGothic" pointSize="20"/>
                                         </buttonConfiguration>
                                         <connections>
-                                            <action selector="attackAction" destination="AdV-FW-p38" eventType="touchUpInside" id="7Bb-vu-bLp"/>
+                                            <action selector="tameruAction" destination="AdV-FW-p38" eventType="touchUpInside" id="9X4-pe-ICm"/>
                                         </connections>
                                     </button>
                                 </subviews>
@@ -333,6 +333,7 @@
                         <outlet property="playerImageView" destination="8W4-O3-BnI" id="Oh2-cc-sgA"/>
                         <outlet property="playerMPLabel" destination="8QF-rF-pwr" id="dYQ-dU-HY8"/>
                         <outlet property="playerNameLabel" destination="504-iD-4fX" id="izS-V1-fQZ"/>
+                        <outlet property="playerTPLabel" destination="gSb-Tf-AX5" id="QKC-1k-PiZ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xu6-Hi-KgR" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
